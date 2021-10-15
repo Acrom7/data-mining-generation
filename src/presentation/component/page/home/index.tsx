@@ -30,9 +30,7 @@ const HomePage: FC = () => {
                 from: 1,
                 to: 10,
             },
-        }).then(value => {
-            setData(value);
-        });
+        }).then(value => setData(value));
     }, []);
 
     return (
