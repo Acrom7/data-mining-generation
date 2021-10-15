@@ -5,6 +5,7 @@ import Head from 'next/head';
 import { enableStaticRendering } from 'mobx-react';
 import isServer from 'helper/common/isServer';
 import { Provider as ThemeProvider } from 'presentation/context/Theme';
+import 'antd/dist/antd.css';
 
 enableStaticRendering(isServer());
 
