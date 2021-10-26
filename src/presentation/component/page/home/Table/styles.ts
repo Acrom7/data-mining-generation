@@ -5,4 +5,3 @@ export const Wrapper = styled.div`
         background-color: hsl(0, 0%, 96%);
     }
 `
-

@@ -1,52 +1,26 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Table } from 'antd';
 import Layout from 'presentation/component/layout/Main';
 import generateData from 'presentation/component/page/home/generate/generateData';
-import { Wrapper } from './styles';
-
-const COLUMNS = [
-    {
-        title: 'Класс',
-        dataIndex: 'class',
-    },
-    {
-        title: 'Признак',
-        dataIndex: 'feature',
-    },
-    {
-        title: 'Число периодов динамики',
-        dataIndex: 'periodAmount',
-    },
-    {
-        title: '№ периода',
-        dataIndex: 'period',
-    },
-    {
-        title: 'ЗДП',
-        dataIndex: 'value',
-    },
-];
+import Form from './Form';
+import Table from './Table';
 
 const HomePage: FC = () => {
+    const [step, setStep] = useState<'form' | 'table'>('form');
     const [data, setData] = useState<RowT[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        generateData({
-            classesAmount: 3,
-            featureAmount: 3,
-            maxPeriodAmount: 3,
-        }).then(value => setData(value));
-    }, []);
+    const handleFormSubmit = async (parameters: GenerateParameters) => {
+        setIsLoading(true);
+        const newData = await generateData(parameters);
+        setData(newData);
+        setIsLoading(false);
+        setStep('table');
+    };
 
     return (
         <Layout>
-            <Wrapper>
-                <Table
-                    dataSource={data}
-                    columns={COLUMNS}
-                    rowClassName={(row: RowT) => row.class % 2 === 0 ? 'even' : 'odd'}
-                />;
-            </Wrapper>
+            {step === 'form' && <Form isLoading={isLoading} onSubmit={handleFormSubmit} />}
+            {step === 'table' && <Table data={data} />}
         </Layout>
     );
 };

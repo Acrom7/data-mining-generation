@@ -2,10 +2,10 @@ type IntervalT = {
     from: number,
     to: number,
 }
-type GenerateParameter = {
-    classesAmount: number,
+type GenerateParameters = {
+    classAmount: number,
     featureAmount: number,
-    maxPeriodAmount: number,
+    periodAmount: number,
 }
 
 type RowT = {
@@ -17,7 +17,7 @@ type RowT = {
     value: number
 }
 
-type GenerateFunctionT = (params: GenerateParameter) => Promise<RowT[]>
+type GenerateFunctionT = (params: GenerateParameters) => Promise<RowT[]>
 
 type PossibleValuesT = Record<number, IntervalT>
 
