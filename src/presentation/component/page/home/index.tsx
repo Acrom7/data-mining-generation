@@ -1,20 +1,29 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Table } from 'antd';
 import Layout from 'presentation/component/layout/Main';
-import generateData, { RowT } from './generateData';
+import generateData from 'presentation/component/page/home/generate/generateData';
+import { Wrapper } from './styles';
 
 const COLUMNS = [
     {
-        title: 'Class',
+        title: 'Класс',
         dataIndex: 'class',
     },
     {
-        title: 'Feature',
+        title: 'Признак',
         dataIndex: 'feature',
     },
     {
-        title: 'Period',
+        title: 'Число периодов динамики',
+        dataIndex: 'periodAmount',
+    },
+    {
+        title: '№ периода',
         dataIndex: 'period',
+    },
+    {
+        title: 'ЗДП',
+        dataIndex: 'value',
     },
 ];
 
@@ -25,17 +34,19 @@ const HomePage: FC = () => {
         generateData({
             classesAmount: 3,
             featureAmount: 3,
-            periodAmount: 3,
-            availableValues: {
-                from: 1,
-                to: 10,
-            },
+            maxPeriodAmount: 3,
         }).then(value => setData(value));
     }, []);
 
     return (
         <Layout>
-            <Table dataSource={data} columns={COLUMNS} />;
+            <Wrapper>
+                <Table
+                    dataSource={data}
+                    columns={COLUMNS}
+                    rowClassName={(row: RowT) => row.class % 2 === 0 ? 'even' : 'odd'}
+                />;
+            </Wrapper>
         </Layout>
     );
 };
