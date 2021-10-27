@@ -1,7 +1,7 @@
 import React, { FC, useState } from 'react';
 import { Table as AntdTable, Button, Space } from 'antd';
-import { Wrapper } from './styles';
 import { getColumns, getData, TableVariantT } from './mapTableVariantToData';
+import { HeaderWrapper, Wrapper } from './styles';
 
 type PropsT = {
     data: GenerateReturnT;
@@ -16,39 +16,43 @@ const Table: FC<PropsT> = (props) => {
         <Wrapper>
             <AntdTable
                 title={() => (
-                    <Space>
-                        <Button
-                            type={tableVariant === 'class' ? 'primary' : 'default'}
-                            onClick={() => setTableVariant('class')}
-                        >
-                            Классы
-                        </Button>
-                        <Button
-                            type={tableVariant === 'feature' ? 'primary' : 'default'}
-                            onClick={() => setTableVariant('feature')}
-                        >
-                            Признаки
-                        </Button>
-                        <Button
-                            type={tableVariant === 'period' ? 'primary' : 'default'}
-                            onClick={() => setTableVariant('period')}
-                        >
-                            ЧПД
-                        </Button>
-                        <Button
-                            type={tableVariant === 'value' ? 'primary' : 'default'}
-                            onClick={() => setTableVariant('value')}
-                        >
-                            ЗДП
-                        </Button>
-                        <Button
-                            type={tableVariant === 'possible' ? 'primary' : 'default'}
-                            onClick={() => setTableVariant('possible')}
-                        >
-                            Возможные/нормальные значения
-                        </Button>
-                        <Button onClick={onBackButtonClick}>Назад</Button>
-                    </Space>
+                    <HeaderWrapper>
+                        <Space>
+                            <Button
+                                type={tableVariant === 'class' ? 'primary' : 'default'}
+                                onClick={() => setTableVariant('class')}
+                            >
+                                Классы
+                            </Button>
+                            <Button
+                                type={tableVariant === 'feature' ? 'primary' : 'default'}
+                                onClick={() => setTableVariant('feature')}
+                            >
+                                Признаки
+                            </Button>
+                            <Button
+                                type={tableVariant === 'period' ? 'primary' : 'default'}
+                                onClick={() => setTableVariant('period')}
+                            >
+                                ЧПД
+                            </Button>
+                            <Button
+                                type={tableVariant === 'value' ? 'primary' : 'default'}
+                                onClick={() => setTableVariant('value')}
+                            >
+                                ЗДП + ВГ, НГ
+                            </Button>
+                            <Button
+                                type={tableVariant === 'possible' ? 'primary' : 'default'}
+                                onClick={() => setTableVariant('possible')}
+                            >
+                                Возможные/нормальные значения
+                            </Button>
+                        </Space>
+                        <Space>
+                            <Button onClick={onBackButtonClick}>Назад</Button>
+                        </Space>
+                    </HeaderWrapper>
                 )}
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore

@@ -20,7 +20,7 @@ const generateData: GenerateFunctionT = async (params) => {
 
     classes.forEach(classNumber => {
         features.forEach(featureNumber => {
-            const currentPeriodAmount = chance.integer({ min: 2, max: periodAmount });
+            const currentPeriodAmount = chance.integer({ min: 1, max: periodAmount });
             periods.push({ class: classNumber, feature: featureNumber, periodAmount: currentPeriodAmount });
 
             for (let periodNumber = 1; periodNumber <= currentPeriodAmount; periodNumber++) {
