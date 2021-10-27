@@ -6,7 +6,7 @@ import Table from './Table';
 
 const HomePage: FC = () => {
     const [step, setStep] = useState<'form' | 'table'>('form');
-    const [data, setData] = useState<RowT[]>([]);
+    const [data, setData] = useState<GenerateReturnT>({ classes: [], features: [], values: [] });
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleFormSubmit = async (parameters: GenerateParameters) => {
@@ -20,7 +20,7 @@ const HomePage: FC = () => {
     return (
         <Layout>
             {step === 'form' && <Form isLoading={isLoading} onSubmit={handleFormSubmit} />}
-            {step === 'table' && <Table data={data} />}
+            {step === 'table' && <Table data={data} onBackButtonClick={() => setStep('form')} />}
         </Layout>
     );
 };

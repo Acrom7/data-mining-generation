@@ -8,7 +8,7 @@ type GenerateParameters = {
     periodAmount: number,
 }
 
-type RowT = {
+type ValueT = {
     key: number | string,
     class: number,
     feature: number,
@@ -17,7 +17,8 @@ type RowT = {
     value: number
 }
 
-type GenerateFunctionT = (params: GenerateParameters) => Promise<RowT[]>
+type GenerateReturnT = {values: ValueT[], classes: number[], features: number[]}
+type GenerateFunctionT = (params: GenerateParameters) => Promise<GenerateReturnT>
 
 type PossibleValuesT = Record<number, IntervalT>
 

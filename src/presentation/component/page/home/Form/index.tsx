@@ -29,14 +29,14 @@ const Form: FC<PropsT> = (props) => {
                 autoComplete="off"
             >
                 <Item
-                    label="Максимальное количество классов"
+                    label="Количество классов"
                     name="classAmount"
                     rules={[{ required: true }]}
                 >
                     <Input />
                 </Item>
                 <Item
-                    label="Максимальное количество признаков"
+                    label="Количество признаков"
                     name="featureAmount"
                     rules={[{ required: true }]}
                 >

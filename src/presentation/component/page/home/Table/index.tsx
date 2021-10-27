@@ -1,44 +1,33 @@
-import React, { FC } from 'react';
-import { Table as AntdTable } from 'antd';
+import React, { FC, useState } from 'react';
+import { Table as AntdTable, Button, Space } from 'antd';
 import { Wrapper } from './styles';
-
-const COLUMNS: { title: string, dataIndex: keyof RowT }[] = [
-    {
-        title: 'Класс',
-        dataIndex: 'class',
-    },
-    {
-        title: 'Признак',
-        dataIndex: 'feature',
-    },
-    {
-        title: 'Число периодов динамики',
-        dataIndex: 'periodAmount',
-    },
-    {
-        title: '№ периода',
-        dataIndex: 'period',
-    },
-    {
-        title: 'ЗДП',
-        dataIndex: 'value',
-    },
-];
+import { getColumns, getData, TableVariantT } from './mapTableVariantToData';
 
 type PropsT = {
-    data: RowT[]
+    data: GenerateReturnT;
+    onBackButtonClick: () => void;
 }
 
 const Table: FC<PropsT> = (props) => {
-    const { data } = props;
+    const { data, onBackButtonClick } = props;
+    const [tableVariant, setTableVariant] = useState<TableVariantT>('class')
 
     return (
         <Wrapper>
             <AntdTable
-                dataSource={data}
-                columns={COLUMNS}
-                rowClassName={(row: RowT) => row.class % 2 === 0 ? 'even' : 'odd'}
-            />;
+                title={() => (
+                    <Space>
+                        <Button type={tableVariant === 'class' ? 'primary' : 'default'} onClick={() => setTableVariant('class')}>Классы</Button>
+                        <Button type={tableVariant === 'feature' ? 'primary' : 'default'} onClick={() => setTableVariant('feature')}>Признаки</Button>
+                        <Button type={tableVariant === 'value' ? 'primary' : 'default'} onClick={() => setTableVariant('value')}>ЗДП</Button>
+                        <Button onClick={onBackButtonClick}>Назад</Button>
+                    </Space>
+                )}
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore
+                dataSource={getData(tableVariant, data)}
+                columns={getColumns(tableVariant)}
+            />
         </Wrapper>
     );
 };

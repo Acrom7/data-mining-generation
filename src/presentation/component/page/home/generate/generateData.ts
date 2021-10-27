@@ -5,17 +5,19 @@ const chance = new Chance();
 
 const generateData: GenerateFunctionT = async (params) => {
     const { classAmount, featureAmount, periodAmount } = params;
-    const result: RowT[] = [];
+    const values: ValueT[] = [];
+    const classes: number[] = Array.from({ length: classAmount }, (_, i) => i + 1);
+    const features: number[] = Array.from({ length: featureAmount }, (_, i) => i + 1);
     const { possibleValues, normalValues } = generateValues(featureAmount);
 
-    for (let classNumber = 1; classNumber <= classAmount; classNumber++) {
-        for (let featureNumber = 1; featureNumber <= featureAmount; featureNumber++) {
+    classes.forEach(classNumber => {
+        features.forEach(featureNumber => {
             const currentPeriodAmount = chance.integer({ min: 2, max: periodAmount });
 
             for (let periodNumber = 1; periodNumber <= currentPeriodAmount; periodNumber++) {
                 const { from, to } = possibleValues[featureNumber];
 
-                result.push({
+                values.push({
                     key: `${classNumber}-${featureNumber}-${periodNumber}}`,
                     class: classNumber,
                     feature: featureNumber,
@@ -24,10 +26,10 @@ const generateData: GenerateFunctionT = async (params) => {
                     value: chance.integer({ min: from, max: to }),
                 });
             }
-        }
-    }
+        });
+    });
 
-    return result;
+    return { values, classes, features };
 };
 
 export default generateData;
