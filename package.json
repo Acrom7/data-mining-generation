@@ -36,12 +36,14 @@
         "url": "https://github.com/ekabolotina/skeleton-front-end/issues"
     },
     "dependencies": {
+        "@ant-design/icons": "^4.7.0",
         "@bit/taptima.common.svg-sprite-icon": "^1.0.1",
         "@emotion/react": "^11.1.2",
         "@emotion/styled": "^11.0.0",
         "antd": "^4.16.13",
         "axios": "^0.21.2",
         "chance": "^1.1.8",
+        "export-from-json": "^1.4.1",
         "formik": "^2.2.6",
         "fp-ts": "^2.8.2",
         "inversify": "^5.0.5",
