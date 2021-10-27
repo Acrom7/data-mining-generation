@@ -10,16 +10,43 @@ type PropsT = {
 
 const Table: FC<PropsT> = (props) => {
     const { data, onBackButtonClick } = props;
-    const [tableVariant, setTableVariant] = useState<TableVariantT>('class')
+    const [tableVariant, setTableVariant] = useState<TableVariantT>('class');
 
     return (
         <Wrapper>
             <AntdTable
                 title={() => (
                     <Space>
-                        <Button type={tableVariant === 'class' ? 'primary' : 'default'} onClick={() => setTableVariant('class')}>Классы</Button>
-                        <Button type={tableVariant === 'feature' ? 'primary' : 'default'} onClick={() => setTableVariant('feature')}>Признаки</Button>
-                        <Button type={tableVariant === 'value' ? 'primary' : 'default'} onClick={() => setTableVariant('value')}>ЗДП</Button>
+                        <Button
+                            type={tableVariant === 'class' ? 'primary' : 'default'}
+                            onClick={() => setTableVariant('class')}
+                        >
+                            Классы
+                        </Button>
+                        <Button
+                            type={tableVariant === 'feature' ? 'primary' : 'default'}
+                            onClick={() => setTableVariant('feature')}
+                        >
+                            Признаки
+                        </Button>
+                        <Button
+                            type={tableVariant === 'period' ? 'primary' : 'default'}
+                            onClick={() => setTableVariant('period')}
+                        >
+                            ЧПД
+                        </Button>
+                        <Button
+                            type={tableVariant === 'value' ? 'primary' : 'default'}
+                            onClick={() => setTableVariant('value')}
+                        >
+                            ЗДП
+                        </Button>
+                        <Button
+                            type={tableVariant === 'possible' ? 'primary' : 'default'}
+                            onClick={() => setTableVariant('possible')}
+                        >
+                            Возможные/нормальные значения
+                        </Button>
                         <Button onClick={onBackButtonClick}>Назад</Button>
                     </Space>
                 )}
