@@ -1,7 +1,6 @@
-import { TableColumnsType } from 'antd';
 import intervalToString from 'helper/interval/intervalToString';
 
-export type TableVariantT = 'class' | 'feature' | 'possible' | 'period' | 'value' | 'border'
+export type TableVariantT = 'class' | 'feature' | 'possible' | 'period' | 'value'
 
 export function getColumns(variant: TableVariantT) {
     if (variant === 'value') {
