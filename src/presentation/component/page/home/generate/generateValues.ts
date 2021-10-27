@@ -6,8 +6,13 @@ const generatePossibleValues = (featuresAmount: number): PossibleValuesT => {
     const result: PossibleValuesT = {};
 
     for (let featureNumber = 1; featureNumber <= featuresAmount; featureNumber++) {
-        const max = chance.integer({ min: 2, max: 99 });
-        const min = chance.integer({ min: 1, max });
+        let max = chance.integer({ min: 2, max: 99 });
+        let min = chance.integer({ min: 1, max });
+
+        while (max === min) {
+            max = chance.integer({ min: 2, max: 99 });
+            min = chance.integer({ min: 1, max });
+        }
 
         result[featureNumber] = {
             from: min,
@@ -18,7 +23,10 @@ const generatePossibleValues = (featuresAmount: number): PossibleValuesT => {
     return result;
 };
 
-const generateNormalValues = (featuresAmount: number, possibleValues: PossibleValuesT): NormalValuesT => {
+const generateNormalValues = (
+    featuresAmount: number,
+    possibleValues: PossibleValuesT,
+): NormalValuesT => {
     const result: NormalValuesT = {};
 
     for (let featureNumber = 1; featureNumber <= featuresAmount; featureNumber++) {
@@ -31,11 +39,13 @@ const generateNormalValues = (featuresAmount: number, possibleValues: PossibleVa
     return result;
 };
 
- const generateValues = (featuresAmount: number): { possibleValues: PossibleValuesT, normalValues: NormalValuesT } => {
+const generateValues = (
+    featuresAmount: number,
+): { possibleValues: PossibleValuesT; normalValues: NormalValuesT } => {
     const possibleValues = generatePossibleValues(featuresAmount);
     const normalValues = generateNormalValues(featuresAmount, possibleValues);
 
     return { possibleValues, normalValues };
 };
 
-export default generateValues
+export default generateValues;

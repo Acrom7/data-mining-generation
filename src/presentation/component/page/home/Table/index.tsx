@@ -76,7 +76,9 @@ const Table: FC<PropsT> = (props) => {
                                 <Button
                                     icon={<DownloadOutlined />}
                                     type="primary"
-                                    disabled={tableVariant === 'class' || tableVariant === 'period'}
+                                    disabled={
+                                        tableVariant === 'class' || tableVariant === 'feature'
+                                    }
                                     onClick={() => setIsVisible((prevState) => !prevState)}
                                 >
                                     Скачать

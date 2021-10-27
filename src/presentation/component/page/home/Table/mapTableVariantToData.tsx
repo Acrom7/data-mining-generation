@@ -1,17 +1,21 @@
+import { TableColumnType } from 'antd';
 import intervalToString from 'helper/interval/intervalToString';
 
-export type TableVariantT = 'class' | 'feature' | 'possible' | 'period' | 'value'
+export type TableVariantT = 'class' | 'feature' | 'possible' | 'period' | 'value';
 
-export function getColumns(variant: TableVariantT) {
+// eslint-disable-next-line @typescript-eslint/ban-types
+export function getColumns(variant: TableVariantT): TableColumnType<object>[] {
     if (variant === 'value') {
         return [
             {
                 title: 'Класс',
                 dataIndex: 'class',
+                render: (value) => `Заболевание${value}`,
             },
             {
                 title: 'Признак',
                 dataIndex: 'feature',
+                render: (value) => `Признак${value}`,
             },
             {
                 title: 'Число периодов динамики',
@@ -40,6 +44,7 @@ export function getColumns(variant: TableVariantT) {
         return [
             {
                 title: 'Классы',
+                render: (value) => `Заболевание${value}`,
             },
         ];
     }
@@ -48,6 +53,7 @@ export function getColumns(variant: TableVariantT) {
         return [
             {
                 title: 'Признаки',
+                render: (value) => `Признак${value}`,
             },
         ];
     }
@@ -57,10 +63,12 @@ export function getColumns(variant: TableVariantT) {
             {
                 title: 'Класс',
                 dataIndex: 'class',
+                render: (value) => `Заболевание${value}`,
             },
             {
                 title: 'Признак',
                 dataIndex: 'feature',
+                render: (value) => `Признак${value}`,
             },
             {
                 title: 'ЧПД',
@@ -74,6 +82,7 @@ export function getColumns(variant: TableVariantT) {
             {
                 title: 'Признак',
                 dataIndex: 'feature',
+                render: (value) => `Признак${value}`,
             },
             {
                 title: 'Возможные значения',
@@ -85,6 +94,8 @@ export function getColumns(variant: TableVariantT) {
             },
         ];
     }
+
+    return [];
 }
 
 export function getData(variant: TableVariantT, data: GenerateReturnT) {
