@@ -28,6 +28,7 @@ export function getColumns(variant: TableVariantT): TableColumnType<object>[] {
             {
                 title: 'ЗДП',
                 dataIndex: 'value',
+                render: (value) => intervalToString(value),
             },
             {
                 title: 'НГ',
