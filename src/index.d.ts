@@ -35,3 +35,14 @@ type PossibleValuesT = Record<number, IntervalT>;
 type NormalValuesT = Record<number, IntervalT>;
 
 type PeriodsT = { class: number; feature: number; periodAmount: number };
+
+type DataSamplingTableRowT = Pick<
+    ValueT,
+    'key' | 'class' | 'feature' | 'periodAmount' | 'period'
+> & {
+    periodDuration: number;
+    observationMomentsAmount: number;
+    moment: number;
+    momentDuration: number;
+    value: number;
+};
