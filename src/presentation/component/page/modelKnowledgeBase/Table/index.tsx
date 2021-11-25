@@ -3,7 +3,7 @@ import exportFromJSON, { ExportType } from 'export-from-json';
 import { Table as AntdTable, Button, Space, Popover } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { getColumns, getData, TableVariantT } from './mapTableVariantToData';
-import { HeaderWrapper, Wrapper } from './styles';
+import { ExportButton, HeaderWrapper, Wrapper } from './styles';
 
 type PropsT = {
     data: GenerateReturnT;
@@ -68,8 +68,15 @@ const Table: FC<PropsT> = (props) => {
                                 onVisibleChange={(visible) => !visible && setIsVisible(false)}
                                 content={
                                     <Space direction="vertical">
-                                        <Button onClick={() => exportFile('csv')}>CSV</Button>
-                                        <Button onClick={() => exportFile('xls')}>XLS</Button>
+                                        <ExportButton onClick={() => exportFile('csv')}>
+                                            CSV
+                                        </ExportButton>
+                                        <ExportButton onClick={() => exportFile('xls')}>
+                                            XLS
+                                        </ExportButton>
+                                        <ExportButton onClick={() => exportFile('json')}>
+                                            JSON
+                                        </ExportButton>
                                     </Space>
                                 }
                             >

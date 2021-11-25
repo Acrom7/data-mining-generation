@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Form as AntdForm } from 'antd'
+import { Form as AntdForm } from 'antd';
 
 export const Wrapper = styled.div`
     display: flex;
@@ -12,8 +12,8 @@ export const Wrapper = styled.div`
 
 export const Form = styled(AntdForm)`
     width: 100%;
-`
+`;
 
 export const Item = styled(AntdForm.Item)`
     width: 100%;
-`
+`;

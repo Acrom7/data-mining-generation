@@ -4,8 +4,8 @@ import { Wrapper, Form as BaseForm, Item } from './styles';
 
 type PropsT = {
     isLoading: boolean;
-    onSubmit: (data: GenerateParameters) => void
-}
+    onSubmit: (data: GenerateParameters) => void;
+};
 
 const Form: FC<PropsT> = (props) => {
     const { isLoading, onSubmit } = props;
@@ -28,11 +28,7 @@ const Form: FC<PropsT> = (props) => {
                 }}
                 autoComplete="off"
             >
-                <Item
-                    label="Количество классов"
-                    name="classAmount"
-                    rules={[{ required: true }]}
-                >
+                <Item label="Количество классов" name="classAmount" rules={[{ required: true }]}>
                     <Input />
                 </Item>
                 <Item
