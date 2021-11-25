@@ -1,6 +1,5 @@
-import { FC, useMemo } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Table as AntdTable, TableColumnProps } from 'antd';
-import generateDataSampling from './generateDataSampling';
 
 type PropsT = {
     amount: number;
@@ -26,10 +25,24 @@ const rowRender: TableColumnProps<any>['render'] = (value, row, index) => {
 
 const Table: FC<PropsT> = (props) => {
     const { amount, values } = props;
-    const tableData = useMemo(() => generateDataSampling(amount, values), [amount, values]);
+    const [tableData, setTableData] = useState<any[]>([]);
+    const [isGenerating, setIsGenerating] = useState(true);
+
+    useEffect(() => {
+        const worker = new Worker(new URL('./worker.ts', import.meta.url));
+        worker.postMessage({
+            amount,
+            values,
+        });
+        worker.onmessage = ({ data: { result } }) => {
+            setTableData((prevState) => [...prevState, ...result]);
+            setIsGenerating(false);
+        };
+    }, []);
 
     return (
         <AntdTable
+            loading={isGenerating}
             dataSource={tableData}
             columns={[
                 {
