@@ -18,7 +18,7 @@ const Table: FC<PropsT> = (props) => {
     const exportFile = async (type: ExportType) => {
         exportFromJSON({
             data: getData(tableVariant, data),
-            fileName: 'GeneratedData',
+            fileName: 'GeneratedModel',
             exportType: type,
         });
     };
