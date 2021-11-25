@@ -70,6 +70,7 @@ const Table: FC<PropsT> = (props) => {
                                     <Space direction="vertical">
                                         <Button onClick={() => exportFile('csv')}>CSV</Button>
                                         <Button onClick={() => exportFile('xls')}>XLS</Button>
+                                        <Button onClick={() => exportFile('json')}>JSON</Button>
                                     </Space>
                                 }
                             >

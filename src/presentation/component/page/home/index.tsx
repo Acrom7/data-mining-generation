@@ -1,35 +1,25 @@
-import React, { FC, useState } from 'react';
+import { FC } from 'react';
+import NextLink from 'next/link';
+import { Button } from 'antd';
+import { MODEL_KNOWLEDGE_BASE, MODEL_DATA_SAMPLING } from 'constant/routes';
 import Layout from 'presentation/component/layout/Main';
-import generateData from 'presentation/component/page/home/generate/generateData';
-import Form from './Form';
-import Table from './Table';
+import { Inner, Wrapper } from './styles';
 
-const HomePage: FC = () => {
-    const [step, setStep] = useState<'form' | 'table'>('form');
-    const [data, setData] = useState<GenerateReturnT>({
-        classes: [],
-        features: [],
-        values: [],
-        normalValues: [],
-        periods: [],
-        possibleValues: [],
-    });
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-
-    const handleFormSubmit = async (parameters: GenerateParameters) => {
-        setIsLoading(true);
-        const newData = await generateData(parameters);
-        setData(newData);
-        setIsLoading(false);
-        setStep('table');
-    };
-
+const Home: FC = () => {
     return (
         <Layout>
-            {step === 'form' && <Form isLoading={isLoading} onSubmit={handleFormSubmit} />}
-            {step === 'table' && <Table data={data} onBackButtonClick={() => setStep('form')} />}
+            <Wrapper>
+                <Inner>
+                    <NextLink href={MODEL_KNOWLEDGE_BASE} passHref>
+                        <Button>Генерация модельной базы знаний</Button>
+                    </NextLink>
+                    <NextLink href={MODEL_DATA_SAMPLING} passHref>
+                        <Button>Генерация модельной выборки данных</Button>
+                    </NextLink>
+                </Inner>
+            </Wrapper>
         </Layout>
     );
 };
 
-export default HomePage;
+export default Home;
