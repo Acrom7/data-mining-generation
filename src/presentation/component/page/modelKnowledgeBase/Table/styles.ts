@@ -10,6 +10,6 @@ export const HeaderWrapper = styled.div`
     justify-content: space-between;
 `;
 
-export const Button = styled(BaseButton)`
+export const ExportButton = styled(BaseButton)`
     width: 100%;
 `;
