@@ -6,7 +6,14 @@ import Table from './Table';
 
 const HomePage: FC = () => {
     const [step, setStep] = useState<'form' | 'table'>('form');
-    const [data, setData] = useState<GenerateReturnT>({ classes: [], features: [], values: [], normalValues: [], periods: [], possibleValues: [] });
+    const [data, setData] = useState<GenerateReturnT>({
+        classes: [],
+        features: [],
+        values: [],
+        normalValues: [],
+        periods: [],
+        possibleValues: [],
+    });
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleFormSubmit = async (parameters: GenerateParameters) => {
@@ -24,6 +31,5 @@ const HomePage: FC = () => {
         </Layout>
     );
 };
-
 
 export default HomePage;
