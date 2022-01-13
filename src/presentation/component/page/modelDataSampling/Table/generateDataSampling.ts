@@ -2,17 +2,17 @@ import Chance from 'chance';
 
 const chance = new Chance();
 
-function divideIntoChunks(length: number, count: number): number[] {
-    const arr = Array.from({ length }, (_, i) => i + 1);
-    const res = [];
-    const size = arr.length / count;
-    let ind = 0;
+function generateObservationMoments(periodDuration: number): number[] {
+    const result = [];
+    let leftDuration = periodDuration;
 
-    while (ind < arr.length) {
-        res.push(arr.slice(ind, (ind += size)));
+    while (leftDuration > 0) {
+        const momentDuration = chance.integer({ min: 1, max: leftDuration });
+        result.push(momentDuration);
+        leftDuration -= momentDuration;
     }
 
-    return res.map((el) => el.length);
+    return result;
 }
 
 export default function generateDataSampling(
@@ -34,32 +34,36 @@ export default function generateDataSampling(
         };
     }, {} as Record<ValueT['class'], ValueT[]>);
 
+    let medicalHistoryNumber = 1;
+
     Object.entries(groupByClasses).forEach(([classNum, classValues]) => {
-        for (let i = 0; i < amount; i++) {
-            classValues.forEach((value) => {
+        for (let i = 0; i < amount; i++, medicalHistoryNumber++) {
+            for (let k = 0; k < classValues.length; ++k) {
+                const value = classValues[k];
                 const { from, to } = value.value;
                 const periodDuration = chance.integer({
                     min: value.bottomBorder,
                     max: value.topBorder,
                 });
-                const observationMomentsAmount = chance.integer({ min: 1, max: periodDuration });
-                const momentDurations = divideIntoChunks(periodDuration, observationMomentsAmount);
+                const momentDurations = generateObservationMoments(periodDuration);
+                const moments = momentDurations.map(
+                    (el, index) =>
+                        el + momentDurations.slice(0, index).reduce((sum, e) => sum + e, 0),
+                );
 
-                for (let moment = 1; moment <= observationMomentsAmount; moment++) {
+                for (let j = 0; j < moments.length; j++) {
                     result.push({
-                        key: `${classNum}-${i}-${moment}:${value.key}`,
-                        period: value.period,
-                        periodAmount: value.periodAmount,
+                        medicalHistoryNumber,
+                        key: `${classNum}-${i}-${j}:${value.key}`,
                         class: value.class,
                         feature: value.feature,
                         value: chance.integer({ min: from, max: to }),
-                        periodDuration,
-                        observationMomentsAmount,
-                        moment,
-                        momentDuration: momentDurations[moment - 1],
+                        observationMomentsAmount: momentDurations.length,
+                        moment: moments[j],
+                        momentNumber: j,
                     });
                 }
-            });
+            }
         }
     });
 

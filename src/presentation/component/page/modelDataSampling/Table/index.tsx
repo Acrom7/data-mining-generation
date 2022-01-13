@@ -6,16 +6,16 @@ type PropsT = {
     values: ValueT[];
 };
 
-const rowRender: TableColumnProps<any>['render'] = (value, row, index) => {
+const rowRender: TableColumnProps<any>['render'] = (value, row: DataSamplingTableRowT, index) => {
     const obj = {
         children: value,
         props: {} as { rowSpan: number | undefined },
     };
 
-    if (row.moment === 1) {
+    if (row.momentNumber === 0) {
         obj.props.rowSpan = row.observationMomentsAmount;
-    } else if (index === 0 && row.moment !== 1) {
-        obj.props.rowSpan = row.observationMomentsAmount - row.moment + 1;
+    } else if (index === 0 && row.momentNumber !== 0) {
+        obj.props.rowSpan = row.observationMomentsAmount - row.momentNumber;
     } else {
         obj.props.rowSpan = 0;
     }
@@ -40,11 +40,18 @@ const Table: FC<PropsT> = (props) => {
         };
     }, []);
 
+    console.log(tableData);
+
     return (
         <AntdTable
             loading={isGenerating}
             dataSource={tableData}
             columns={[
+                {
+                    title: 'Номер истории болезни',
+                    dataIndex: 'medicalHistoryNumber',
+                    render: (value, row, index) => rowRender(`${value}`, row, index),
+                },
                 {
                     title: 'Класс',
                     dataIndex: 'class',
@@ -56,32 +63,8 @@ const Table: FC<PropsT> = (props) => {
                     render: (value, row, index) => rowRender(`Признак${value}`, row, index),
                 },
                 {
-                    title: 'ЧПД',
-                    dataIndex: 'periodAmount',
-                    render: rowRender,
-                },
-                {
-                    title: '№ периода',
-                    dataIndex: 'period',
-                    render: rowRender,
-                },
-                {
-                    title: 'Длительность периода',
-                    dataIndex: 'periodDuration',
-                    render: rowRender,
-                },
-                {
-                    title: 'Число моментов наблюдения',
-                    dataIndex: 'observationMomentsAmount',
-                    render: rowRender,
-                },
-                {
                     title: 'Момент наблюдения',
                     dataIndex: 'moment',
-                },
-                {
-                    title: 'Длительность момента',
-                    dataIndex: 'momentDuration',
                 },
                 {
                     title: 'Значение признака',
