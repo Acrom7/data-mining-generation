@@ -44,3 +44,14 @@ type DataSamplingTableRowT = Pick<ValueT, 'key' | 'class' | 'feature'> & {
     momentNumber: number;
     observationMomentsAmount: number;
 };
+
+
+type ThirdValueT = {
+    "medicalHistoryNumber": number,
+    "key": string,
+    "class": number,
+    "feature": number,
+    "value": number,
+    "moment": number,
+}
+
