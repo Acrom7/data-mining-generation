@@ -39,9 +39,16 @@ export default function generateDataSampling(
     Object.entries(groupByClasses).forEach(([classNum, classValues ]) => {
         for (let i = 0; i < amount; i++, medicalHistoryNumber++) {
             let previousPeriodDuration = 0
+            let previousPeriodFeature = classValues[0].feature
 
             for (let k = 0; k < classValues.length; ++k) {
                 const value = classValues[k];
+
+                if (value.feature !== previousPeriodFeature) {
+                    previousPeriodDuration = 0
+                    previousPeriodFeature = value.feature
+                }
+
                 const { from, to } = value.value;
                 const periodDuration = chance.integer({
                     min: value.bottomBorder,
@@ -52,7 +59,7 @@ export default function generateDataSampling(
                     (el, index) =>
                         el + momentDurations.slice(0, index).reduce((sum, e) => sum + e, 0) + previousPeriodDuration,
                 );
-                previousPeriodDuration = periodDuration
+                previousPeriodDuration += periodDuration
 
                 for (let j = 0; j < moments.length; j++) {
                     result.push({
