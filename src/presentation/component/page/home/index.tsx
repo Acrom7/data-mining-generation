@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import NextLink from 'next/link';
 import { Button } from 'antd';
-import { MODEL_KNOWLEDGE_BASE, MODEL_DATA_SAMPLING } from 'constant/routes';
+import { MODEL_KNOWLEDGE_BASE, MODEL_DATA_SAMPLING, INDUCTIVE_KNOWLEDGE_BASE } from 'constant/routes';
 import Layout from 'presentation/component/layout/Main';
 import { Inner, Wrapper } from './styles';
 
@@ -15,6 +15,9 @@ const Home: FC = () => {
                     </NextLink>
                     <NextLink href={MODEL_DATA_SAMPLING} passHref>
                         <Button>Генерация модельной выборки данных</Button>
+                    </NextLink>
+                    <NextLink href={INDUCTIVE_KNOWLEDGE_BASE} passHref>
+                        <Button>Индуктивный формирователь базы знаний</Button>
                     </NextLink>
                 </Inner>
             </Wrapper>
