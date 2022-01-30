@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { Table as AntdTable } from 'antd';
-import { recoveryOnePeriod } from './inductiveRecovery';
+import { recoveryDataKnowledgeBase } from './inductiveRecovery';
 import intervalToString from 'helper/interval/intervalToString';
 
 type PropsT = {
@@ -10,14 +10,11 @@ type PropsT = {
 
 const Table: FC<PropsT> = (props) => {
     const { values } = props;
-    console.log({ values });
     const [tableData, setTableData] = useState<ValueT[]>([]);
     const [isGenerating, setIsGenerating] = useState(false);
 
     useEffect(() => {
-        const res = recoveryOnePeriod(values)
-
-        console.log({ res });
+        const res = recoveryDataKnowledgeBase(values)
 
         setTableData(res)
     }, []);

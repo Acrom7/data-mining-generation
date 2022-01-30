@@ -54,4 +54,3 @@ type ThirdValueT = {
     "value": number,
     "moment": number,
 }
-
