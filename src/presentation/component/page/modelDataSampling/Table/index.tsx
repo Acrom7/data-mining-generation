@@ -1,5 +1,9 @@
-import { FC, useEffect, useState } from 'react';
-import { Table as AntdTable, TableColumnProps } from 'antd';
+import React, { FC, useEffect, useState } from 'react';
+import { Button, Popover, Space, Table as AntdTable, TableColumnProps } from 'antd';
+import { ExportButton, HeaderWrapper } from 'presentation/component/page/modelKnowledgeBase/Table/styles';
+import { DownloadOutlined } from '@ant-design/icons';
+import exportFromJSON, { ExportType } from 'export-from-json';
+import { getData } from 'presentation/component/page/modelKnowledgeBase/Table/mapTableVariantToData';
 
 type PropsT = {
     amount: number;
@@ -25,8 +29,16 @@ const rowRender: TableColumnProps<any>['render'] = (value, row: DataSamplingTabl
 
 const Table: FC<PropsT> = (props) => {
     const { amount, values } = props;
-    const [tableData, setTableData] = useState<any[]>([]);
+    const [tableData, setTableData] = useState<DataSamplingTableRowT[]>([]);
     const [isGenerating, setIsGenerating] = useState(true);
+
+    const exportFile = async (type: ExportType) => {
+        exportFromJSON({
+            data: tableData.map(({momentNumber, observationMomentsAmount, ...rest}) => ({...rest})),
+            fileName: 'ModelDataSampling',
+            exportType: type,
+        });
+    };
 
     useEffect(() => {
         const worker = new Worker(new URL('./worker.ts', import.meta.url));
@@ -40,10 +52,21 @@ const Table: FC<PropsT> = (props) => {
         };
     }, []);
 
-    console.log(tableData);
-
     return (
         <AntdTable
+            title={() => (
+                <HeaderWrapper>
+                    <Space>
+                        <Button
+                            icon={<DownloadOutlined />}
+                            onClick={() => exportFile('json')}
+                            type="primary"
+                        >
+                            Скачать JSON
+                        </Button>
+                    </Space>
+                </HeaderWrapper>
+            )}
             loading={isGenerating}
             dataSource={tableData}
             columns={[

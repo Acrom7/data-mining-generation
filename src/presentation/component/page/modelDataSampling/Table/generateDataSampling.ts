@@ -36,7 +36,7 @@ export default function generateDataSampling(
 
     let medicalHistoryNumber = 1;
 
-    Object.entries(groupByClasses).forEach(([classNum, classValues ]) => {
+    Object.entries(groupByClasses).forEach(([classNum, classValues]) => {
         for (let i = 0; i < amount; i++, medicalHistoryNumber++) {
             let previousPeriodDuration = 0
             let previousPeriodFeature = classValues[0].feature
