@@ -32,12 +32,14 @@ export default function generateDataSampling(
             ...classes,
             [value.class]: [value],
         };
-    }, {} as Record<ValueT['class'], ValueT[]>);
+    }, {} as Record<ValueT['class'], ValueT[]>) as Record<ValueT['class'], ValueT[]>;
 
     let medicalHistoryNumber = 1;
 
-    Object.entries(groupByClasses).forEach(([classNum, classValues]) => {
+    Object.entries(groupByClasses).forEach(([classNum, classValues ]) => {
         for (let i = 0; i < amount; i++, medicalHistoryNumber++) {
+            let previousPeriodDuration = 0
+
             for (let k = 0; k < classValues.length; ++k) {
                 const value = classValues[k];
                 const { from, to } = value.value;
@@ -48,8 +50,9 @@ export default function generateDataSampling(
                 const momentDurations = generateObservationMoments(periodDuration);
                 const moments = momentDurations.map(
                     (el, index) =>
-                        el + momentDurations.slice(0, index).reduce((sum, e) => sum + e, 0),
+                        el + momentDurations.slice(0, index).reduce((sum, e) => sum + e, 0) + previousPeriodDuration,
                 );
+                previousPeriodDuration = periodDuration
 
                 for (let j = 0; j < moments.length; j++) {
                     result.push({
