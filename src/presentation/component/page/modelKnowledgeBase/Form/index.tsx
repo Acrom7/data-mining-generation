@@ -1,10 +1,20 @@
 import { FC } from 'react';
-import { Input, Button } from 'antd';
+import { InputNumber, Button } from 'antd';
 import { Wrapper, Form as BaseForm, Item } from './styles';
 
 type PropsT = {
     isLoading: boolean;
     onSubmit: (data: GenerateParameters) => void;
+};
+
+const validateMessages = {
+    required: '${label} обязательно к заполнению!',
+    types: {
+        number: '${label} должно быть числом!',
+    },
+    number: {
+        range: '${label} должно быть между ${min} и ${max}',
+    },
 };
 
 const Form: FC<PropsT> = (props) => {
@@ -15,9 +25,7 @@ const Form: FC<PropsT> = (props) => {
             <BaseForm
                 name="generate"
                 layout="vertical"
-                validateMessages={{
-                    required: 'Это поле обязательно к заполнению',
-                }}
+                validateMessages={validateMessages}
                 initialValues={{
                     classAmount: 99,
                     featureAmount: 999,
@@ -28,22 +36,31 @@ const Form: FC<PropsT> = (props) => {
                 }}
                 autoComplete="off"
             >
-                <Item label="Количество классов" name="classAmount" rules={[{ required: true }]}>
-                    <Input />
+                <Item label="Количество классов" name="classAmount" rules={[
+                    { required: true },
+                    { type: 'number', min: 1, max: 99 },
+                ]}>
+                    <InputNumber />
                 </Item>
                 <Item
                     label="Количество признаков"
                     name="featureAmount"
-                    rules={[{ required: true }]}
+                    rules={[
+                        { required: true },
+                        { type: 'number', min: 1, max: 999 },
+                    ]}
                 >
-                    <Input />
+                    <InputNumber />
                 </Item>
                 <Item
                     label="Максимальное количество периодов динамики"
                     name="periodAmount"
-                    rules={[{ required: true }]}
+                    rules={[
+                        { required: true },
+                        { type: 'number', min: 1, max: 5 },
+                    ]}
                 >
-                    <Input />
+                    <InputNumber />
                 </Item>
                 <Item>
                     <Button type="primary" htmlType="submit" loading={isLoading}>
