@@ -64,3 +64,12 @@ type PeriodsPercentT = {
     correctAmount: number;
     totalAmount: number;
 };
+
+type ValuesPercentT = {
+    value: ValueT;
+    equalAmount: number;
+    subset12Amount: number;
+    subset21Amount: number;
+    unknownAmount: number;
+    totalAmount: number;
+};

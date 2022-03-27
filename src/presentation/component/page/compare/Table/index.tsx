@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { Button, Space, Table as AntdTable } from 'antd';
 import { HeaderWrapper } from 'presentation/component/page/modelKnowledgeBase/Table/styles';
 import { getColumns, getData, TableVariantT } from './mapTableVariantToData';
@@ -11,12 +11,6 @@ type PropsT = {
 const Table: FC<PropsT> = (props) => {
     const { modelValues, inductiveValues } = props;
     const [tableVariant, setTableVariant] = useState<TableVariantT>('periods');
-
-    useEffect(() => {
-        // const res = recoveryDataKnowledgeBase(values);
-        //
-        // setTableData(res);
-    }, []);
 
     return (
         <AntdTable
@@ -40,6 +34,12 @@ const Table: FC<PropsT> = (props) => {
                             onClick={() => setTableVariant('values')}
                         >
                             ЗДП
+                        </Button>
+                        <Button
+                            type={tableVariant === 'values-percent' ? 'primary' : 'default'}
+                            onClick={() => setTableVariant('values-percent')}
+                        >
+                            ЗДП (проценты)
                         </Button>
                     </Space>
                 </HeaderWrapper>
