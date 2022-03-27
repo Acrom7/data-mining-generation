@@ -29,6 +29,12 @@ const Table: FC<PropsT> = (props) => {
                         >
                             ЧПД
                         </Button>
+                        <Button
+                            type={tableVariant === 'periods-percent' ? 'primary' : 'default'}
+                            onClick={() => setTableVariant('periods-percent')}
+                        >
+                            ЧПД (проценты)
+                        </Button>
                     </Space>
                 </HeaderWrapper>
             )}

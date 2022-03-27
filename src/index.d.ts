@@ -58,3 +58,9 @@ type CompareValueT = {
     model: ValueT;
     inductive: ValueT;
 };
+
+type PeriodsPercentT = {
+    value: ValueT;
+    correctAmount: number;
+    totalAmount: number;
+};

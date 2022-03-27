@@ -1,6 +1,6 @@
 import { TableColumnType } from 'antd';
 
-export type TableVariantT = 'periods';
+export type TableVariantT = 'periods' | 'periods-percent';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function getColumns(variant: TableVariantT): TableColumnType<object>[] {
@@ -42,6 +42,22 @@ export function getColumns(variant: TableVariantT): TableColumnType<object>[] {
         ];
     }
 
+    if (variant === 'periods-percent') {
+        return [
+            {
+                title: 'Класс',
+                dataIndex: ['value', 'class'],
+                render: (value) => `Заболевание${value}`,
+            },
+            {
+                title: 'Процент совпавщих значений',
+                render: ({ correctAmount, totalAmount }: PeriodsPercentT) => {
+                    return ((correctAmount / totalAmount) * 100).toFixed(2);
+                },
+            },
+        ];
+    }
+
     return [];
 }
 
@@ -54,23 +70,69 @@ export function getData(
 ) {
     const { modelValues, inductiveValues } = data;
 
-    const res: CompareValueT[] = modelValues
-        .filter((el) => el.period === 1)
-        .map((origin) => {
-            const inductiveOrigin = inductiveValues.find(
-                (value) => value.class === origin.class && value.feature === origin.feature,
-            );
+    if (variant === 'periods') {
+        const res: CompareValueT[] = modelValues
+            .filter((el) => el.period === 1)
+            .map((origin) => {
+                const inductiveOrigin = inductiveValues.find(
+                    (value) => value.class === origin.class && value.feature === origin.feature,
+                );
 
-            if (inductiveOrigin) {
-                return {
-                    model: origin,
-                    inductive: inductiveOrigin,
-                };
+                if (inductiveOrigin) {
+                    return {
+                        model: origin,
+                        inductive: inductiveOrigin,
+                    };
+                }
+
+                return null;
+            })
+            .filter((el): el is CompareValueT => el !== null);
+
+        return res;
+    }
+
+    if (variant === 'periods-percent') {
+        const res: CompareValueT[] = modelValues
+            .filter((el) => el.period === 1)
+            .map((origin) => {
+                const inductiveOrigin = inductiveValues.find(
+                    (value) => value.class === origin.class && value.feature === origin.feature,
+                );
+
+                if (inductiveOrigin) {
+                    return {
+                        model: origin,
+                        inductive: inductiveOrigin,
+                    };
+                }
+
+                return null;
+            })
+            .filter((el): el is CompareValueT => el !== null);
+
+        const percentRes: PeriodsPercentT[] = [];
+
+        res.forEach(({ model, inductive }) => {
+            const isCorrect = model.periodAmount === inductive.periodAmount;
+
+            const currentDisease = percentRes.find((el) => el.value.class === model.class);
+
+            if (currentDisease) {
+                if (isCorrect) {
+                    currentDisease.correctAmount += 1;
+                }
+
+                currentDisease.totalAmount += 1;
+            } else {
+                percentRes.push({
+                    value: model,
+                    correctAmount: isCorrect ? 1 : 0,
+                    totalAmount: 1,
+                });
             }
+        });
 
-            return null;
-        })
-        .filter((el): el is CompareValueT => el !== null);
-
-    return res;
+        return percentRes;
+    }
 }
