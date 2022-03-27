@@ -1,6 +1,8 @@
 import { TableColumnType } from 'antd';
+import compareInterval from 'helper/interval/compareInterval';
+import intervalToString from 'helper/interval/intervalToString';
 
-export type TableVariantT = 'periods' | 'periods-percent';
+export type TableVariantT = 'periods' | 'periods-percent' | 'values';
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export function getColumns(variant: TableVariantT): TableColumnType<object>[] {
@@ -30,7 +32,6 @@ export function getColumns(variant: TableVariantT): TableColumnType<object>[] {
             {
                 title: 'ЧПД (ИФБЗ)',
                 dataIndex: ['inductive', 'periodAmount'],
-                className: 'asd',
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 render: (value, { model, inductive }: CompareValueT) => {
@@ -50,9 +51,55 @@ export function getColumns(variant: TableVariantT): TableColumnType<object>[] {
                 render: (value) => `Заболевание${value}`,
             },
             {
-                title: 'Процент совпавщих значений',
+                title: 'Процент совпавших значений',
                 render: ({ correctAmount, totalAmount }: PeriodsPercentT) => {
                     return ((correctAmount / totalAmount) * 100).toFixed(2);
+                },
+            },
+        ];
+    }
+
+    if (variant === 'values') {
+        const mapCompareResultToColor: Record<ReturnType<typeof compareInterval>, string> = {
+            'equal': '#b9ffb9',
+            '1subsetOf2': '#fefecc',
+            '2subsetOf1': '#babaff',
+            'unknown': '#ffb4b4',
+        };
+
+        return [
+            {
+                title: 'Класс',
+                dataIndex: ['model', 'class'],
+                render: (value) => `Заболевание${value}`,
+            },
+            {
+                title: 'Признак',
+                dataIndex: ['model', 'feature'],
+                render: (value) => `Признак${value}`,
+            },
+            {
+                title: 'ЗДП (МБЗ)',
+                render: ({ inductive, model }: CompareValueT) => {
+                    const compareValueResult = compareInterval(model.value, inductive.value);
+
+                    return (
+                        <div style={{ background: mapCompareResultToColor[compareValueResult] }}>
+                            {intervalToString(model.value)}
+                        </div>
+                    );
+                },
+            },
+            {
+                title: 'ЗДП (ИФБЗ)',
+                render: ({ inductive, model }: CompareValueT) => {
+                    const compareValueResult = compareInterval(model.value, inductive.value);
+
+                    return (
+                        <div style={{ background: mapCompareResultToColor[compareValueResult] }}>
+                            {intervalToString(inductive.value)}
+                        </div>
+                    );
                 },
             },
         ];
@@ -70,7 +117,7 @@ export function getData(
 ) {
     const { modelValues, inductiveValues } = data;
 
-    if (variant === 'periods') {
+    if (variant === 'periods' || variant === 'values') {
         const res: CompareValueT[] = modelValues
             .filter((el) => el.period === 1)
             .map((origin) => {
