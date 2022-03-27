@@ -45,12 +45,16 @@ type DataSamplingTableRowT = Pick<ValueT, 'key' | 'class' | 'feature'> & {
     observationMomentsAmount: number;
 };
 
-
 type ThirdValueT = {
-    "medicalHistoryNumber": number,
-    "key": string,
-    "class": number,
-    "feature": number,
-    "value": number,
-    "moment": number,
-}
+    'medicalHistoryNumber': number;
+    'key': string;
+    'class': number;
+    'feature': number;
+    'value': number;
+    'moment': number;
+};
+
+type CompareValueT = {
+    model: ValueT;
+    inductive: ValueT;
+};
